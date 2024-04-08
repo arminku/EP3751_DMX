@@ -32,7 +32,7 @@ VAR
 	aLeds		AT%Q*: ARRAY [1..8] OF   BOOL;
 	aTrig		: array[1..4] of r_trig;
 	nIndex: INT;
-	nState: INT:=1;
+	nState: INT:=2;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -62,6 +62,7 @@ CASE nState OF
 		arrProcessData[2]:=TO_BYTE(LIMIT(0,(EP3751_0160_Y*128/1100)+128,255));
 		arrProcessData[3]:=0;
 		arrProcessData[5]:=0;
+		arrProcessData[6]:=0;
 		//arrProcessData[3]:=TO_BYTE((EP3751_0160_Z/DINT_Size)*256+128);
 		//arrProcessData[1]:=LIMIT(0,TO_BYTE(arrProcessData[1]+(EP3751_0160_X/DINT_Size)),255);
 		//arrProcessData[2]:=LIMIT(0,TO_BYTE(arrProcessData[2]+(EP3751_0160_Y/DINT_Size)),255);
@@ -72,8 +73,9 @@ CASE nState OF
 		aLeds[2]:=TRUE;
 		arrProcessData[1]:=TO_BYTE(LIMIT(0,(EP3751_0160_X*128/1100)+128,255));
 		arrProcessData[2]:=TO_BYTE(LIMIT(0,(EP3751_0160_Y*128/1100)+128,255));
-		arrProcessData[3]:=1;
-		arrProcessData[5]:=4;
+		arrProcessData[3]:=10;
+		arrProcessData[5]:=255;
+		arrProcessData[6]:=10;
 		
 	3: // Box without Gyro and Color
 		aLeds[3]:=TRUE;
@@ -126,13 +128,15 @@ fbDMX(
       <LineId Id="196" Count="0" />
       <LineId Id="200" Count="0" />
       <LineId Id="303" Count="1" />
-      <LineId Id="201" Count="4" />
+      <LineId Id="341" Count="1" />
+      <LineId Id="202" Count="3" />
       <LineId Id="197" Count="0" />
       <LineId Id="199" Count="0" />
       <LineId Id="184" Count="0" />
       <LineId Id="265" Count="0" />
       <LineId Id="268" Count="0" />
       <LineId Id="210" Count="0" />
+      <LineId Id="340" Count="0" />
       <LineId Id="269" Count="0" />
       <LineId Id="207" Count="1" />
       <LineId Id="185" Count="0" />

@@ -303,7 +303,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{9D0561F4-FFF2-41E3-A837-99027C2A75A5}" Name="PLC" PrjFilePath="PLC\PLC.plcproj" TmcFilePath="PLC\PLC.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="PLC\PLC.tmc" TmcHash="{5CDC35D5-7E1E-CCCD-5C37-94C48FBD4920}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="PLC\PLC.tmc" TmcHash="{14C5E6ED-1434-F643-BB5A-8A112B9707CF}">
 					<Name>PLC Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
@@ -401,7 +401,9 @@
 				<Box Id="1" BoxType="9099">
 					<Name>Term 1 (EK1100)</Name>
 					<ImageId>1000</ImageId>
-					<EtherCAT SlaveType="1" PdiType="#x0d00" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x044c2c52" RevisionNo="#x00120000" PortPhys="305" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EK1100 EtherCAT Coupler (2A E-Bus)" Desc="EK1100" PortABoxInfo="#x00ffffff"/>
+					<EtherCAT SlaveType="1" PdiType="#x0d00" CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x044c2c52" RevisionNo="#x00120000" PortPhys="305" IdentificationAdo="18" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EK1100 EtherCAT Coupler (2A E-Bus)" Desc="EK1100" PortABoxInfo="#xffffffff">
+						<HcData>0700000008000000020000000000000000000000000000000000000000000000</HcData>
+					</EtherCAT>
 					<Box Id="2" BoxType="9099" BoxFlags="#x00000020">
 						<Name>Term 2 (EL6851)</Name>
 						<ImageId>1001</ImageId>
@@ -4060,7 +4062,9 @@
 						<EtherCAT CycleMBoxPollingTime="0" VendorId="#x00000002" ProductCode="#x23333050" InfoDataState="false" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="EL9011 End Terminal" Desc="EL9011" PortABoxInfo="#x02000006"/>
 					</Box>
 				</Box>
-				<EtherCAT/>
+				<EtherCAT>
+					<SyncUnit Name="[Term 1 (EK1100)]" HcName="Term 1 (EK1100)"/>
+				</EtherCAT>
 			</Device>
 		</Io>
 	</Project>
