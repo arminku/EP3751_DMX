@@ -12,13 +12,6 @@ VAR
 	EP3751_0160_Z AT%I*:DINT;
 	
 	
-	EP3751_0260_X AT%I*:DINT;
-	EP3751_0260_Y AT%I*:DINT;
-	EP3751_0260_Z AT%I*:DINT;	
-	EP3751_0260_rX AT%I*:DINT;
-	EP3751_0260_rY AT%I*:DINT;
-	EP3751_0260_rZ AT%I*:DINT;
-	
 	
 	stEL6851InData  AT%I*:  ST_EL6851InDataEx;
 	stEL6851OutData AT%Q*: ST_EL6851OutData;
@@ -26,69 +19,16 @@ VAR
 	arrProcessData  : ARRAY [1..512] OF BYTE;
 	
 	fbDMX		: FB_EL6851CommunicationEx;
-	fbSample	: TON;
-	bEP3751_0160_active AT%I*:BOOL;
-	aButtons	AT%I*: ARRAY [1..4] OF   BOOL;
-	aLeds		AT%Q*: ARRAY [1..8] OF   BOOL;
-	aTrig		: array[1..4] of r_trig;
-	nIndex: INT;
-	nState: INT:=2;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[FOR nIndex:=1 TO 4 DO
-	aTrig[nIndex](clk:=aButtons[nIndex]);
-	IF aTrig[nIndex].Q  THEN
-		IF  nState=nIndex THEN
-			nState:=0; 
-		ELSE
-			nState:=nIndex;
-		END_IF
-	END_IF
-END_FOR		
+      <ST><![CDATA[
+arrProcessData[1]:=TO_BYTE(LIMIT(0,(EP3751_0160_X*128/1100)+128,255));
+arrProcessData[2]:=TO_BYTE(LIMIT(0,(EP3751_0160_Y*128/1100)+128,255));
+arrProcessData[3]:=10;
+arrProcessData[5]:=255;
+arrProcessData[6]:=10;
 
-Memset(ADR(aLeds),0, SIZEOF(aLeds));
-
-CASE nState OF 
-	0: 	//No Control
-		arrProcessData[1]:=0;
-		arrProcessData[2]:=0;
-		arrProcessData[3]:=0;
-		arrProcessData[4]:=0;
-		
-	1: // Box without Gyro
-		aLeds[1]:=TRUE;
-		arrProcessData[1]:=TO_BYTE(LIMIT(0,(EP3751_0160_X*128/1100)+128,255));
-		arrProcessData[2]:=TO_BYTE(LIMIT(0,(EP3751_0160_Y*128/1100)+128,255));
-		arrProcessData[3]:=0;
-		arrProcessData[5]:=0;
-		arrProcessData[6]:=0;
-		//arrProcessData[3]:=TO_BYTE((EP3751_0160_Z/DINT_Size)*256+128);
-		//arrProcessData[1]:=LIMIT(0,TO_BYTE(arrProcessData[1]+(EP3751_0160_X/DINT_Size)),255);
-		//arrProcessData[2]:=LIMIT(0,TO_BYTE(arrProcessData[2]+(EP3751_0160_Y/DINT_Size)),255);
-		//arrProcessData[3]:=LIMIT(0,TO_BYTE(arrProcessData[3]+(EP3751_0160_Z/DINT_Size)),255);
-		//arrProcessData[4]:=255;	
-		
-	2: // Box with Gyro
-		aLeds[2]:=TRUE;
-		arrProcessData[1]:=TO_BYTE(LIMIT(0,(EP3751_0160_X*128/1100)+128,255));
-		arrProcessData[2]:=TO_BYTE(LIMIT(0,(EP3751_0160_Y*128/1100)+128,255));
-		arrProcessData[3]:=10;
-		arrProcessData[5]:=255;
-		arrProcessData[6]:=10;
-		
-	3: // Box without Gyro and Color
-		aLeds[3]:=TRUE;
-		arrProcessData[1]:=TO_BYTE(LIMIT(0,(EP3751_0260_rX*128/1100)+128,255));
-		arrProcessData[2]:=TO_BYTE(LIMIT(0,(EP3751_0260_rY*128/1100)+128,255));
-		arrProcessData[4]:=255;	
-		
-	4: // Box with Gyro and Color
-		aLeds[4]:=TRUE;
-		arrProcessData[1]:=LIMIT(0,TO_BYTE(arrProcessData[1]+(EP3751_0260_rX/DINT_Size)),255);
-		arrProcessData[2]:=LIMIT(0,TO_BYTE(arrProcessData[2]+(EP3751_0260_rY/DINT_Size)),255);
-		//arrProcessData[3]:=LIMIT(0,TO_BYTE(arrProcessData[3]+(EP3751_0260_rZ/DINT_Size)),255);
-END_CASE
 
 
 fbDMX(
@@ -108,49 +48,10 @@ fbDMX(
 ]]></ST>
     </Implementation>
     <LineIds Name="MAIN_1">
-      <LineId Id="164" Count="0" />
-      <LineId Id="163" Count="0" />
-      <LineId Id="169" Count="0" />
-      <LineId Id="175" Count="0" />
-      <LineId Id="173" Count="0" />
-      <LineId Id="177" Count="1" />
-      <LineId Id="176" Count="0" />
-      <LineId Id="171" Count="0" />
-      <LineId Id="168" Count="0" />
-      <LineId Id="226" Count="0" />
-      <LineId Id="179" Count="0" />
-      <LineId Id="227" Count="0" />
-      <LineId Id="180" Count="1" />
-      <LineId Id="192" Count="2" />
-      <LineId Id="190" Count="0" />
-      <LineId Id="195" Count="0" />
-      <LineId Id="189" Count="0" />
-      <LineId Id="196" Count="0" />
-      <LineId Id="200" Count="0" />
-      <LineId Id="303" Count="1" />
-      <LineId Id="341" Count="1" />
-      <LineId Id="202" Count="3" />
-      <LineId Id="197" Count="0" />
-      <LineId Id="199" Count="0" />
-      <LineId Id="184" Count="0" />
-      <LineId Id="265" Count="0" />
-      <LineId Id="268" Count="0" />
-      <LineId Id="210" Count="0" />
-      <LineId Id="340" Count="0" />
-      <LineId Id="269" Count="0" />
-      <LineId Id="207" Count="1" />
-      <LineId Id="185" Count="0" />
-      <LineId Id="215" Count="0" />
-      <LineId Id="262" Count="0" />
-      <LineId Id="220" Count="0" />
-      <LineId Id="217" Count="0" />
-      <LineId Id="216" Count="0" />
-      <LineId Id="186" Count="0" />
-      <LineId Id="225" Count="0" />
-      <LineId Id="223" Count="1" />
-      <LineId Id="221" Count="0" />
-      <LineId Id="182" Count="0" />
-      <LineId Id="88" Count="1" />
+      <LineId Id="377" Count="4" />
+      <LineId Id="428" Count="0" />
+      <LineId Id="465" Count="1" />
+      <LineId Id="89" Count="0" />
       <LineId Id="34" Count="6" />
       <LineId Id="48" Count="3" />
       <LineId Id="2" Count="0" />
